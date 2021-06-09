@@ -1,46 +1,42 @@
 import torch
-
-import math
 import scipy
-import ctypes
+import scipy.io.wavfile
 import hparams
 import librosa
-
-import librosa.filters
-import scipy.io.wavfile
-
 import numpy as np
+import librosa.filters
 import tensorflow as tf
 
-
-def load_wav(path):
-    return librosa.core.load(path, sr=hparams.sample_rate)[0]
+from scipy import signal
 
 
-def save_wav(wav, path):
-    wav *= 32767 / max(0.01, np.max(np.abs(wav)))
-    scipy.io.wavfile.write(path, hparams.sample_rate, wav.astype(np.int16))
+def encode_16bits(x, rescale_out=1.0):
+    x *= 32767 / max(0.01, np.max(np.abs(x))) * rescale_out
+    return x.astype(np.int16)
 
 
-def preemphasis(x, enable=hparams.preemphasis_enable):
-    if enable:
-        return scipy.signal.lfilter([1, -hparams.preemphasis], [1], x)
-    else:
-        return x
+def load_wav(filename, sample_rate=24000, encode=True):
+    x = librosa.load(filename, sr=sample_rate)[0]
+    if encode == True:
+        x = encode_16bits(x)
+    return x
 
 
-def inv_preemphasis(x, enable=hparams.preemphasis_enable):
-    if enable:
-        return scipy.signal.lfilter([1], [1, -hparams.preemphasis], x)
-    else:
-        return x
+def save_wav(y, filename, sample_rate, rescale_out=1.0):
+    y = encode_16bits(y, rescale_out)
+    scipy.io.wavfile.write(filename, sample_rate, y.astype(np.int16))
+
+
+def preemphasis(x):
+    return signal.lfilter([1, -hparams.preemphasis], [1], x)
+
+
+def inv_preemphasis(x):
+    return signal.lfilter([1], [1, -hparams.preemphasis], x)
 
 
 def add_noise(wav, quantization_channel):
-    noise = torch.empty_like(wav.float())\
-        .normal_(0, 0.50 / quantization_channel)
-    # noise = torch.empty_like(wav.float())\
-    #     .log_normal_(0, 0.50 / quantization_channel)
+    noise = torch.empty_like(wav.float()).normal_(0, 0.50 / quantization_channel)
     return noise
 
 
@@ -52,11 +48,8 @@ def spectrogram(y):
 
 def inv_spectrogram(spectrogram):
     '''Converts spectrogram to waveform using librosa'''
-
-    # Convert back to linear
-    S = _db_to_amp(_denormalize(spectrogram) + hparams.ref_level_db)
-    # Reconstruct phase
-    return inv_preemphasis(_griffin_lim(S ** hparams.power))
+    S = _db_to_amp(_denormalize(spectrogram) + hparams.ref_level_db)    # Convert back to linear
+    return inv_preemphasis(_griffin_lim(S ** hparams.power))                    # Reconstruct phase
 
 
 def inv_spectrogram_tensorflow(spectrogram):
@@ -64,8 +57,7 @@ def inv_spectrogram_tensorflow(spectrogram):
     Unlike inv_spectrogram, this does NOT invert the preemphasis. The caller should call
     inv_preemphasis on the output after running the graph.
     '''
-    S = _db_to_amp_tensorflow(
-        _denormalize_tensorflow(spectrogram) + hparams.ref_level_db)
+    S = _db_to_amp_tensorflow(_denormalize_tensorflow(spectrogram) + hparams.ref_level_db)
     return _griffin_lim_tensorflow(tf.pow(S, hparams.power))
 
 
@@ -141,7 +133,8 @@ def _stft_parameters():
     return n_fft, hop_length, win_length
 
 
-# Conversions:
+# --- Conversions --- #
+
 _mel_basis = None
 
 
@@ -154,7 +147,7 @@ def _linear_to_mel(spectrogram):
 
 def _build_mel_basis():
     n_fft = (hparams.num_freq - 1) * 2
-    return librosa.filters.mel(hparams.sample_rate, n_fft, n_mels=hparams.num_mels)
+    return librosa.filters.mel(hparams.sample_rate, n_fft, n_mels=hparams.num_mels, fmin=hparams.fmin)
 
 
 def _amp_to_db(x):
