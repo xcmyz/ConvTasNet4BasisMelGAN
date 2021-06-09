@@ -110,3 +110,5 @@ BZNSYP*
 dataset/
 *.wav
 test*
+logger/
+model_new/
