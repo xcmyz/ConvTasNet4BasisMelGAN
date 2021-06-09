@@ -103,25 +103,10 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-# vscode
+# my
 .vscode/
 .DS_store
-
-# dataset
-dataset
-LJSpeech-1.1/
-weight
-
-# training
-logger
-model_new
-
-# test
-test
-test_temp*
-
-image
-result
-vocoder_test
-
-for_test/
+BZNSYP/
+dataset/
+*.wav
+test*
