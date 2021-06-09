@@ -106,7 +106,7 @@ venv.bak/
 # my
 .vscode/
 .DS_store
-BZNSYP/
+BZNSYP*
 dataset/
 *.wav
 test*
