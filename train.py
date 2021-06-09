@@ -12,7 +12,7 @@ import numpy as np
 import hparams as hp
 
 from radam import RAdam
-from optimizers import ScheduledOptim
+from scheduler import ScheduledOptim
 
 from loss import cal_loss
 from tasnet import ConvTasNet
