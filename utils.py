@@ -205,17 +205,13 @@ def overlap_and_add(signal, frame_step):
     frame = signal.new_tensor(frame).long()  # signal may in GPU or CPU
     frame = frame.contiguous().view(-1)
 
-    result = signal.new_zeros(
-        *outer_dimensions, output_subframes, subframe_length)
+    result = signal.new_zeros(*outer_dimensions, output_subframes, subframe_length)
     result.index_add_(-2, frame, subframe_signal)
     result = result.view(*outer_dimensions, -1)
     return result
 
 
 def draw_picture(x, y1, y2, y3, info, name):
-    # plt.scatter(x, y1, c='r', s=0.1, label=info[0])
-    # plt.scatter(x, y2, c='g', s=0.1, label=info[1])
-    # plt.scatter(x, y3, c='b', s=0.1, label=info[2])
     plt.plot(x, y1, 'r--', label=info[0])
     plt.plot(x, y2, 'g--', label=info[1])
     plt.plot(x, y3, 'b--', label=info[2])
