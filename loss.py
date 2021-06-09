@@ -93,7 +93,6 @@ def reorder_source(source, perms, max_snr_idx):
     # [B, C], permutation whose SI-SNR is max of each utterance
     # for each utterance, reorder estimate source according this permutation
     max_snr_perm = torch.index_select(perms, dim=0, index=max_snr_idx)
-    # print('max_snr_perm', max_snr_perm)
     # maybe use torch.gather()/index_select()/scatter() to impl this?
     reorder_source = torch.zeros_like(source)
     for b in range(B):
