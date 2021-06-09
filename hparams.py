@@ -4,32 +4,28 @@ import numpy as np
 
 # Wav
 num_mels = 80
-sample_rate = 24000
-# sample_rate = 8000
 num_freq = 1025
-frame_length_ms = 13.5
-frame_shift_ms = 2.50
-preemphasis_enable = False
-preemphasis = 0.97
+frame_length_ms = 50
+frame_shift_ms = 10
 fmin = 40
+hop_size = 240
+sample_rate = 24000
 min_level_db = -100
 ref_level_db = 20
+preemphasize = True
+preemphasis = 0.97
+rescale_out = 0.4
 signal_normalization = True
 griffin_lim_iters = 60
 power = 1.5
 
 
 # Model
-# quantization_channel = int(np.sqrt(2 ** 16))
-# quantization_channel = int(np.sqrt(2 ** 12))
 quantization_channel = int(np.sqrt(2 ** 8))
 
 
 N = 256
-# N = 192
-L = 40
-# L = 16
-# L = 20
+L = 30
 B = 256
 H = 512
 P = 3
@@ -43,17 +39,13 @@ mask_nonlinear = "relu"
 
 # Train
 fixed_length = 20000
-clean_p = 0.0
-
-gen_size = 9800
-test_size = 0
+gen_size = 10000
 
 logger_path = os.path.join("logger")
 dataset_path = os.path.join("dataset")
 checkpoint_path = os.path.join("model_new")
 vocoder_test_path = os.path.join("vocoder_test")
 
-# batch_size = 3
 batch_size = 8
 epochs = 2000
 n_warm_up_step = 4000
