@@ -11,8 +11,6 @@ import argparse
 import numpy as np
 import hparams as hp
 
-from multiprocessing import cpu_count
-
 from radam import RAdam
 from optimizers import ScheduledOptim
 
@@ -169,8 +167,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--restore_step', type=int, default=0)
     parser.add_argument('--frozen_learning_rate', type=bool, default=False)
-    # parser.add_argument("--learning_rate_frozen", type=float, default=1e-3)
-    # parser.add_argument("--learning_rate_frozen", type=float, default=1e-4)
     parser.add_argument("--learning_rate_frozen", type=float, default=2e-4)
     args = parser.parse_args()
     main(args)
