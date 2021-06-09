@@ -31,6 +31,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     model = get_DNN(args.step)
+    weight = model.module.decoder.basis_signals.weight
+    weight = weight.detach().numpy().astype(np.float32)
+    np.save("basis_signal_weight.npy", weight, allow_pickle=False)
     os.makedirs("weight", exist_ok=True)
     list_filename = list()
     with open(os.path.join("LJSpeech-1.1", 'metadata.csv'), encoding='utf-8') as f:
@@ -50,9 +53,4 @@ if __name__ == "__main__":
         wav = audio.load_wav(list_filename[i])
         wav = torch.Tensor(wav)
         wav_, weight, weight_ = autoencoder(model, wav)
-        # weight_average = weight.sum() / (weight.shape[0] * weight.shape[1])
-        # weight_average_ = weight_.sum() / (weight_.shape[0] * weight_.shape[1])
-        # print("max:", weight_.max())
-        # str0 = "weight average value: {:.6f}, weight_ average value: {:.6f}.".format(weight_average, weight_average_)
-        # print(str0)
         np.save(os.path.join("weight", str(i)+".npy"), weight_)
