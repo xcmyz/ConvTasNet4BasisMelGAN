@@ -47,25 +47,16 @@ def get_DNN(num):
     model.load_state_dict(
         torch.load(os.path.join(hp.checkpoint_path, checkpoint_path),
                    map_location=torch.device(device))['model'])
-    # torch.save({'model': model.state_dict()}, "checkpoint_270000.pth.tar", _use_new_zipfile_serialization=False)
     model.eval()
     return model
 
 
 def get_file_list():
-    ljspeech_path = os.path.join("LJSpeech-1.1")
-    wavs_path = os.path.join(ljspeech_path, "wavs")
+    ljspeech_path = os.path.join("BZNSYP")
+    wavs_path = os.path.join(ljspeech_path, "Wave")
     file_list = os.listdir(wavs_path)
     out_file_list = random.sample(file_list, 3)
-    # print(out_file_list)
     return out_file_list, wavs_path
-
-
-# def get_file_list():
-#     wavs_path = os.path.join("for_test")
-#     out_file_list = ["1.wav", "2.wav", "3.wav"]
-#     # print(out_file_list)
-#     return out_file_list, wavs_path
 
 
 def test(model, mix):
@@ -95,34 +86,21 @@ if __name__ == "__main__":
         audio.save_wav(wav, os.path.join(
             "result", str(args.step) + "_" + str(i) + "_original.wav"))
         wav = torch.Tensor(wav)
-        noi = audio.add_noise(
-            wav, quantization_channel=hp.quantization_channel)
-        audio.save_wav(noi.numpy(), os.path.join(
-            "result", str(args.step) + "_" + str(i) + "_noi.wav"))
+        noi = audio.add_noise(wav, quantization_channel=hp.quantization_channel)
+        audio.save_wav(noi.numpy(), os.path.join("result", str(args.step) + "_" + str(i) + "_noi.wav"))
         mix = wav.float() + noi
-        audio.save_wav(mix.numpy(), os.path.join(
-            "result", str(args.step) + "_" + str(i) + "_mix.wav"))
+        audio.save_wav(mix.numpy(), os.path.join("result", str(args.step) + "_" + str(i) + "_mix.wav"))
 
         est_noi, est_wav, _ = test(model, mix)
-        audio.save_wav(est_noi, os.path.join(
-            "result", str(args.step) + "_" + str(i) + "_est_noi.wav"))
-        audio.save_wav(est_wav, os.path.join(
-            "result", str(args.step) + "_" + str(i) + "_est_wav.wav"))
+        audio.save_wav(est_noi, os.path.join("result", str(args.step) + "_" + str(i) + "_est_noi.wav"))
+        audio.save_wav(est_wav, os.path.join("result", str(args.step) + "_" + str(i) + "_est_wav.wav"))
 
         mix_ = wav.float()
-        audio.save_wav(mix_.numpy(), os.path.join(
-            "result", str(args.step) + "_" + str(i) + "_mix_non_noi.wav"))
+        audio.save_wav(mix_.numpy(), os.path.join("result", str(args.step) + "_" + str(i) + "_mix_non_noi.wav"))
         est_noi_, est_wav_, weight = test(model, mix_)
         weights.append(weight)
-        audio.save_wav(est_noi_, os.path.join(
-            "result", str(args.step) + "_" + str(i) + "_est_noi_non_noi.wav"))
-        audio.save_wav(est_wav_, os.path.join(
-            "result", str(args.step) + "_" + str(i) + "_est_wav_non_noi.wav"))
-
-        # wav_autoencoder, weight_autoencoder = autoencoder(model, wav.float())
-        # weights.append(weight_autoencoder)
-        # audio.save_wav(wav_autoencoder, os.path.join(
-        #     "result", str(args.step) + "_" + str(i) + "_autoencoder.wav"))
+        audio.save_wav(est_noi_, os.path.join("result", str(args.step) + "_" + str(i) + "_est_noi_non_noi.wav"))
+        audio.save_wav(est_wav_, os.path.join("result", str(args.step) + "_" + str(i) + "_est_wav_non_noi.wav"))
 
         print("Done", i)
     plot_data(weights, str(args.step) + ".jpg", figsize=(30, 4))
