@@ -1,23 +1,21 @@
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
-
+import utils
+import argparse
 import os
 import time
 import math
-import utils
-import argparse
-
+import audio
+import torch.nn as nn
+import torch.nn.functional as F
 import numpy as np
 import hparams as hp
-
-from radam import RAdam
-from scheduler import ScheduledOptim
 
 from loss import cal_loss
 from tasnet import ConvTasNet
 from dataset import BufferDataset, DataLoader
 from dataset import get_data_to_buffer, collate_fn_tensor
+from radam import RAdam
+from scheduler import ScheduledOptim
 
 
 def main(args):
@@ -105,6 +103,8 @@ def main(args):
                 print(str0)
 
                 # Cal Loss
+                # Only calculate human voice snr
+                # !!! different from paper
                 loss, max_snr, \
                     estimate_source, reorder_estimate_source \
                     = cal_loss(target[:, :1, :], est_source[:, :1, :], length)
@@ -119,8 +119,7 @@ def main(args):
                 loss.backward()
 
                 # Clipping gradients to avoid gradient explosion
-                nn.utils.clip_grad_norm_(
-                    model.parameters(), hp.grad_clip_thresh)
+                nn.utils.clip_grad_norm_(model.parameters(), hp.grad_clip_thresh)
 
                 # Update weights
                 if args.frozen_learning_rate:
