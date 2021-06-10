@@ -2,7 +2,7 @@
 
 Basis-MelGAN: Efficient Neural Vocoder Based on Audio Decomposition. (Accepted by Interspeech 2021)
 
-This repo contains conv-tasnet for basis-melgan. If you want to get code of basis-melgan, please refer [FastVocoder](https://github.com/xcmyz/FastVocoder).
+This repo contains conv-tasnet for basis-melgan. If you want to get code of basis-melgan, please refer to [FastVocoder](https://github.com/xcmyz/FastVocoder).
 
 ## Abstract
 
