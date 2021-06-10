@@ -107,7 +107,8 @@ def main(args):
                 loss, max_snr, \
                     estimate_source, reorder_estimate_source \
                     = cal_loss(target[:, :1, :], est_source[:, :1, :], length)
-                audio.save_wav(target[0][0].cpu().numpy(), "test.wav", hp.sample_rate)
+                if False:
+                    audio.save_wav(target[0][0].cpu().numpy(), "test.wav", hp.sample_rate)
 
                 # Logger
                 l = loss.item()
