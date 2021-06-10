@@ -108,7 +108,9 @@ venv.bak/
 .DS_store
 BZNSYP*
 dataset/
-*.wav
+/*.wav
 test*
 logger/
 model_new/
+result/
+image/
