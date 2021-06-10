@@ -87,7 +87,7 @@ class ConvTasNet(nn.Module):
         T_conv = est_source.size(-1)
         est_source = F.pad(est_source, (0, T_origin - T_conv))
 
-        return est_source[:, 1, :], weight, weight_[:, 1, :]
+        return est_source[:, 0, :], weight, weight_[:, 0, :]
 
     def vocoder(self, weight):
         est_source = self.decoder.vocoder(weight)
