@@ -53,6 +53,7 @@ n_warm_up_step = 4000
 learning_rate = 1e-3
 weight_decay = 1e-6
 grad_clip_thresh = 1.0
+non_noi = 0.3
 
 save_step = 3000
 log_step = 5
