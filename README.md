@@ -38,3 +38,8 @@ run `python3 generator.py --step <step of checkpoint>`
 <div style="text-align: center">
     <img src="resource/basis_signal.png" style="max-width:100%;">
 </div>
+
+## Acknowledgements
+
+- [katuoxu: TasNet](https://github.com/kaituoxu/TasNet)
+- [kaituoxu: Conv-TasNet](https://github.com/kaituoxu/Conv-TasNet)
