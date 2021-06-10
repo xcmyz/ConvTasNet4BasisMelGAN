@@ -109,8 +109,11 @@ venv.bak/
 BZNSYP*
 dataset/
 /*.wav
-test*
+/test*
 logger/
 model_new/
 result/
 image/
+generated/
+weight/
+basis_signal_weight.npy
