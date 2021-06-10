@@ -46,8 +46,7 @@ def main(args):
 
     # Load checkpoint if exists
     try:
-        checkpoint = torch.load(os.path.join(
-            hp.checkpoint_path, 'checkpoint_%d.pth.tar' % args.restore_step))
+        checkpoint = torch.load(os.path.join(hp.checkpoint_path, 'checkpoint_%d.pth.tar' % args.restore_step))
         model.load_state_dict(checkpoint['model'])
         optimizer.load_state_dict(checkpoint['optimizer'])
         print("\n---Model Restored at Step %d---\n" % args.restore_step)
