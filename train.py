@@ -83,8 +83,7 @@ def main(args):
             for j, db in enumerate(batchs):
                 start_time = time.perf_counter()
 
-                current_step = i * hp.batch_expand_size + j + args.restore_step + \
-                    epoch * len(training_loader) * hp.batch_expand_size + 1
+                current_step = i * hp.batch_expand_size + j + args.restore_step + epoch * len(training_loader) * hp.batch_expand_size + 1
 
                 # Init
                 scheduled_optim.zero_grad()
@@ -108,6 +107,7 @@ def main(args):
                 loss, max_snr, \
                     estimate_source, reorder_estimate_source \
                     = cal_loss(target[:, :1, :], est_source[:, :1, :], length)
+                audio.save_wav(target[0][0].cpu().numpy(), "test.wav", hp.sample_rate)
 
                 # Logger
                 l = loss.item()
