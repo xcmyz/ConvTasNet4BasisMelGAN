@@ -34,7 +34,7 @@ if __name__ == "__main__":
 
     model = get_model(args.step)
     weight = model.module.decoder.basis_signals.weight
-    weight = weight.detach().numpy().astype(np.float32)
+    weight = weight.detach().cpu().numpy().astype(np.float32)
     np.save("basis_signal_weight.npy", weight, allow_pickle=False)
     os.makedirs("generated", exist_ok=True)
     os.makedirs("weight", exist_ok=True)
