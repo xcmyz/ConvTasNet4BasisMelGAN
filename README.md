@@ -12,24 +12,24 @@ Recent studies have shown that neural vocoders based on generative adversarial n
 
 Based on [BiaoBei dataset](https://www.data-baker.com/#/data/index/source), pretrained model is in [here](), demo is [here](/demo).
 
-1. preprocess
+### 1. preprocess
 
 Download BiaoBei dataset in `/`, run `python3 preprocess.py`
 
-2. train
+### 2. train
 
 run `python3 train.py`, pretrained model is trained to 300k steps.
 
-3. analysis
+### 3. analysis
 
 run `python3 analysis.py --step <step of checkpoint>`, note:
 
-- <step>_<num>_est_noi_non_noi.wav: estimated noise waveform from clean source
-- <step>_<num>_est_noi.wav: estimated noise waveform from mix source
-- <step>_<num>_est_wav_non_noi.wav: estimated clean waveform from clean source
-- <step>_<num>_est_wav.wav: estimated clean waveform from mix source
+- `<step>_<num>_est_noi_non_noi.wav`: estimated noise waveform from clean source
+- `<step>_<num>_est_noi.wav`: estimated noise waveform from mix source
+- `<step>_<num>_est_wav_non_noi.wav`: estimated clean waveform from clean source
+- `<step>_<num>_est_wav.wav`: estimated clean waveform from mix source
 
-4. generate data for basis-melgan
+### 4. generate data for basis-melgan
 
 run `python3 generator.py --step <step of checkpoint>`
 
