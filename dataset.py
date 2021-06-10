@@ -75,6 +75,11 @@ class BufferDataset(Dataset):
         start_index = random.randint(0, len_data - hp.fixed_length - 1)
         end_index = start_index + hp.fixed_length
         buffer_cut = {"mix": data["mix"][start_index:end_index], "target": data["target"][:, start_index:end_index]}
+
+        # random replace noise
+        if random.random() <= hp.non_noi:
+            buffer_cut["mix"] = buffer_cut["target"][0]
+            buffer_cut["target"] = torch.cat([buffer_cut["target"][:1, :], torch.zeros(1, buffer_cut["target"].size(1))])
         return buffer_cut
 
 
