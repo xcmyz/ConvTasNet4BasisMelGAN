@@ -114,6 +114,4 @@ logger/
 model_new/
 result/
 image/
-generated/
-weight/
-basis_signal_weight.npy
+Basis-MelGAN-dataset/
