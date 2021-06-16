@@ -10,7 +10,7 @@ Recent studies have shown that neural vocoders based on generative adversarial n
 
 ## Usage
 
-Based on [BiaoBei dataset](https://www.data-baker.com/#/data/index/source), pretrained model is in [here](), demo is [here](/demo).
+Based on [BiaoBei dataset](https://www.data-baker.com/#/data/index/source), pretrained model is in [here](https://github.com/xcmyz/ConvTasNet4BasisMelGAN/releases/download/1.0/checkpoint_300000.pth.tar), demo is [here](/demo).
 
 ### 1. preprocess
 
