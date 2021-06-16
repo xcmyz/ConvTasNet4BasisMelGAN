@@ -28,7 +28,8 @@ def _process_utterance(in_path, out_path, index):
 def get_pathfile():
     with open("BZNSYP.txt", "w", encoding="utf-8") as f:
         for filename in os.listdir(os.path.join("BZNSYP", "Wave")):
-            f.write(os.path.abspath(os.path.join("BZNSYP", "Wave", filename)) + "\n")
+            if filename[0] != ".":
+                f.write(os.path.abspath(os.path.join("BZNSYP", "Wave", filename)) + "\n")
 
 
 if __name__ == "__main__":
