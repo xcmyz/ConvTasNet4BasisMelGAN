@@ -55,7 +55,11 @@ def get_file_list():
     ljspeech_path = os.path.join("BZNSYP")
     wavs_path = os.path.join(ljspeech_path, "Wave")
     file_list = os.listdir(wavs_path)
-    out_file_list = random.sample(file_list, 3)
+    file_list_ = []
+    for filename in file_list:
+        if filename[0] != ".":
+            file_list_.append(filename)
+    out_file_list = random.sample(file_list_, 3)
     return out_file_list, wavs_path
 
 
