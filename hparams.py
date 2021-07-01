@@ -40,6 +40,7 @@ mask_nonlinear = "relu"
 # Train
 fixed_length = 20000
 gen_size = 10000
+dataset_size = 20000  # for aishell3
 
 logger_path = os.path.join("logger")
 dataset_path = os.path.join("dataset")
