@@ -16,6 +16,7 @@ from tqdm import tqdm
 from utils import process_text, pad_1D, pad_2D
 from utils import pad_1D_tensor, pad_2D_tensor
 
+DATASET = "aishell3"  # aishell3 or biaobei
 random.seed(0)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -23,7 +24,8 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 def get_data_to_buffer():
     buffer = []
     file_list = []
-    with open("BZNSYP.txt", "r", encoding="utf-8") as f:
+    path_file = "BZNSYP.txt" if DATASET == "biaobei" else "aishell3.txt"
+    with open(path_file, "r", encoding="utf-8") as f:
         lines = f.readlines()
         for line in lines:
             file_list.append(line.split("/")[-1][:-1])
