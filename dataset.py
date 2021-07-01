@@ -1,17 +1,14 @@
 import torch
-
-from torch.nn import functional as F
-from torch.utils.data import Dataset, DataLoader
-
-import os
 import math
 import time
+import os
 import audio
-
 import random
 import numpy as np
 import hparams as hp
 
+from torch.nn import functional as F
+from torch.utils.data import Dataset, DataLoader
 from tqdm import tqdm
 from utils import process_text, pad_1D, pad_2D
 from utils import pad_1D_tensor, pad_2D_tensor
