@@ -59,6 +59,8 @@ def get_pathfile():
 if __name__ == "__main__":
     # Get path in a file
     get_pathfile()
+    executor = ProcessPoolExecutor(max_workers=cpu_count() - 1)
+    futures = []
     os.makedirs(hp.dataset_path, exist_ok=True)
     filename = "BZNSYP.txt" if DATASET == "biaobei" else "aishell3.txt"
     with open(filename, "r", encoding="utf-8") as f:
@@ -68,4 +70,5 @@ if __name__ == "__main__":
             path = paths[i]
             path = path[:-1]
             index = path.split("/")[-1]
-            _process_utterance(os.path.join(path), hp.dataset_path, index)
+            futures.append(executor.submit(partial(_process_utterance, os.path.join(path), hp.dataset_path, index)))
+    [future.result() for future in tqdm(futures)]
