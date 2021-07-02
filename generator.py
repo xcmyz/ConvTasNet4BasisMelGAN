@@ -33,7 +33,7 @@ if __name__ == "__main__":
     model = get_model(args.step)
     weight = model.module.decoder.basis_signals.weight
     weight = weight.detach().cpu().numpy().astype(np.float32)
-    os.makedirs("Basis-MelGAN-dataset")
+    os.makedirs("Basis-MelGAN-dataset", exist_ok=True)
     np.save(os.path.join("Basis-MelGAN-dataset", "basis_signal_weight.npy"), weight, allow_pickle=False)
     os.makedirs(os.path.join("Basis-MelGAN-dataset", "generated"), exist_ok=True)
     os.makedirs(os.path.join("Basis-MelGAN-dataset", "weight"), exist_ok=True)
