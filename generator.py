@@ -11,6 +11,7 @@ from tqdm import tqdm
 from analysis import get_model
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+DATASET = "aishell3"  # aishell3 or biaobei
 
 
 def autoencoder(model, wav):
@@ -37,7 +38,11 @@ if __name__ == "__main__":
     os.makedirs(os.path.join("Basis-MelGAN-dataset", "generated"), exist_ok=True)
     os.makedirs(os.path.join("Basis-MelGAN-dataset", "weight"), exist_ok=True)
     list_filename = list()
-    with open("BZNSYP.txt", "r", encoding="utf-8") as f:
+    if DATASET == "biaobei":
+        path_filename = "BZNSYP.txt"
+    elif DATASET == "aishell3":
+        path_filename = "aishell3.txt"
+    with open(path_filename, "r", encoding="utf-8") as f:
         lines = f.readlines()
         len_lines = len(lines)
         for i in tqdm(range(len_lines)):
