@@ -22,6 +22,7 @@ from sklearn.decomposition import PCA
 
 random.seed(str(time.time()))
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+DATASET = "aishell3"  # aishell3 or biaobei
 
 
 def plot_data(data, filename, figsize=(24, 4)):
@@ -52,9 +53,17 @@ def get_model(num):
 
 
 def get_file_list():
-    ljspeech_path = os.path.join("BZNSYP")
-    wavs_path = os.path.join(ljspeech_path, "Wave")
-    file_list = os.listdir(wavs_path)
+    if DATASET == "biaobei":
+        ljspeech_path = os.path.join("BZNSYP")
+        wavs_path = os.path.join(ljspeech_path, "Wave")
+        file_list = os.listdir(wavs_path)
+    elif DATASET == "aishell3":
+        wavs_path = os.path.join("data_aishell3", "train", "wav")
+        file_list = []
+        for speaker in os.listdir(wavs_path):
+            path = os.path.join(wavs_path, speaker)
+            for filename in os.listdir(path):
+                file_list.append(os.path.join(speaker, filename))
     file_list_ = []
     for filename in file_list:
         if filename[0] != ".":
