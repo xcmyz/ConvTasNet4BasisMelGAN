@@ -5,7 +5,6 @@ import argparse
 import numpy as np
 import random
 import time
-import scipy.io.wavfile
 import tasnet
 import audio
 import scipy
