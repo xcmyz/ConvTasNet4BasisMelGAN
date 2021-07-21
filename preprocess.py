@@ -54,6 +54,11 @@ def get_pathfile():
             files = random.sample(files, hp.dataset_size)
             for file in files:
                 f.write(f"{file}\n")
+    else:
+        with open("dataset.txt", "w", encoding="utf-8") as f:
+            for filename in os.listdir(os.path.join("largedata")):
+                filepath = os.path.join("largedata", filename)
+                f.write(f"{filepath}\n")
 
 
 if __name__ == "__main__":
@@ -62,7 +67,12 @@ if __name__ == "__main__":
     executor = ProcessPoolExecutor(max_workers=cpu_count() - 1)
     futures = []
     os.makedirs(hp.dataset_path, exist_ok=True)
-    filename = "BZNSYP.txt" if DATASET == "biaobei" else "aishell3.txt"
+    if DATASET == "biaobei":
+        filename = "BZNSYP.txt"
+    elif DATASET == "aishell3":
+        filename = "aishell3.txt"
+    else:
+        filename = "dataset.txt"
     with open(filename, "r", encoding="utf-8") as f:
         paths = f.readlines()
         length = len(paths)
